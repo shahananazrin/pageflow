@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Exchange - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #F3F4F6;
+            padding-top: 80px;
+            color: #7a58f8;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #2C3E50;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 45px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover, .active {
+            background-color: #3498DB;
+        }
+
+        .welcome-message {
+            color: white;
+            font-size: 14px;
+            padding: 10px 15px;
+            background-color: #1A252F;
+            border-radius: 5px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 950px;
+            margin: 90px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2C3E50;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Requests Section */
+        .requests {
+            text-align: left;
+            margin-top: 25px;
+        }
+
+        .request-item {
+            background: white;
+            padding: 18px;
+            margin: 12px 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: 0.3s ease;
+            border-left: 5px solid #3498DB;
+        }
+
+        .request-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-item span {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .manage-btn {
+            padding: 10px 15px;
+            background-color: #3498DB;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .manage-btn:hover {
+            background-color: #075a92;
+        }
+
+        /* Exchanged Books Table */
+        .exchange-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .exchange-table th, .exchange-table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .exchange-table th {
+            background-color: #3498DB;
+            color: white;
+        }
+
+        .exchange-table tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .container {
+                width: 90%;
+                padding: 25px;
+            }
+
+            .request-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+
+            .manage-btn {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">
+        <a href="../buyerhome">
+            <img src="../static/hand-drawn-lettering-card-inscription-turn-page-perfect-abstract-design-greeting-cards-posters-tshirts-banners-print-invitations_317038-852.avif" alt="Logo">
+        </a>
+    </div>
+    <ul class="nav-links">
+        <li><a class="active" href="../">Home</a></li>
+        <li><a href="../add_book">Add Book</a></li>
+        <li><a href="../book_list">Book List</a></li>
+        <li><a href="../logout">Logout</a></li>
+    </ul>
+    <div class="welcome-message">
+        <span>👋 Welcome, <strong>{{ user_name }}</strong>!</span>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <h1>📚 PageFlow </h1>
+    <p>Welcome to your book exchange. Manage your pending exchange requests below.</p>
+
+    <div class="requests">
+        <h2>📩 Pending Exchange Requests</h2>
+        {% if pending_requests %}
+            {% for request in pending_requests %}
+                <div class="request-item">
+                    <span><strong>{{ request.requester.username }}</strong> wants to exchange "<strong>{{ request.book.title }}</strong>"</span>
+                    <a class="manage-btn" href="{% url 'manage_exchange' request.id %}">Manage</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No pending exchange requests.</p>
+        {% endif %}
+    </div>
+
+    <!-- Books Exchanged Table -->
+    <h2>📚 Books Exchanged</h2>
+    <table class="exchange-table">
+        <tr>
+            <th>Book Title</th>
+            <th>Exchanged With</th>
+            <th>Date</th>
+        </tr>
+        {% for exchange in exchanged_books %}
+        <tr>
+            <td>{{ exchange.book.title }}</td>
+            <td>{{ exchange.with_user.username }}</td>
+            <td>{{ exchange.date }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No books exchanged yet.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+
+</body>
+</html>

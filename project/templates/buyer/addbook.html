@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Book | Book Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #F5F7FA;
+            padding-top: 80px;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #2C3E50;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: 0.3s ease;
+        }
+
+        .nav-links a:hover, .active {
+            background-color: #3498DB;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 550px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #2C3E50;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #F8F9FA;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            background: #fff;
+        }
+
+        button {
+            padding: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .container {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">
+        <a href="../buyerhome">
+            <img src="../static/hand-drawn-lettering-card-inscription-turn-page-perfect-abstract-design-greeting-cards-posters-tshirts-banners-print-invitations_317038-852.avif" alt="Logo">
+        </a>
+    </div>
+    <ul class="nav-links">
+        <li><a class="active" href="../">Home</a></li>
+        <li><a href="../add_book">Add Book</a></li>
+        <li><a href="../book_list">Book List</a></li>
+        <li><a href="../logout">Logout</a></li>
+    </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <h1>📖 Add a New Book</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">📚 Add Book</button>
+    </form>
+    
+</div>
+
+</body>
+</html>
